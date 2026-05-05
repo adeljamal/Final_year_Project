@@ -125,14 +125,14 @@ def evaluate_model(vectorizer, model, test_df, dataset_name):
     
     cm = confusion_matrix(y_test, predictions)
     print(f"\nConfusion Matrix:")
-    print(f"                Predicted")
-    print(f"                Real  Fake")
-    print(f"Actual Real     {cm[0,0]:5d} {cm[0,1]:5d}")
-    print(f"       Fake     {cm[1,0]:5d} {cm[1,1]:5d}")
+    print(f"           Predicted")
+    print(f"           Real  Fake")
+    print(f"Actual Real {cm[0,0]:5d} {cm[0,1]:5d}")
+    print(f"       Fake {cm[1,0]:5d} {cm[1,1]:5d}")
     
     plt.figure(figsize=(8, 6))
-    sns.heatmap(cm, annot=True, fmt='d', cmap='Greens', 
-                xticklabels=['Real', 'Fake'], 
+    sns.heatmap(cm, annot=True, fmt='d', cmap='Greens',
+                xticklabels=['Real', 'Fake'],
                 yticklabels=['Real', 'Fake'])
     plt.title(f'Confusion Matrix - {dataset_name}')
     plt.ylabel('Actual')
@@ -171,31 +171,15 @@ def save_model(vectorizer, model, model_name='advanced'):
     print(f"Model saved to: {model_path}")
 
 
-def compare_with_baseline():
-    print("\n" + "="*60)
-    print("COMPARISON WITH BASELINE MODEL")
-    print("="*60)
-    
-    print("\nModel Comparison Table:")
-    print("-" * 70)
-    print(f"{'Model':<20} {'Test A Acc':<15} {'Test B Acc':<15} {'Features':<10}")
-    print("-" * 70)
-    print(f"{'Baseline (LR)':<20} {'98.84%':<15} {'46.25%':<15} {'10,000':<10}")
-    print(f"{'Advanced (RF)':<20} {'[Running...]':<15} {'[Running...]':<15} {'15,000':<10}")
-    print("-" * 70)
-
-
 if __name__ == '__main__':
     print("\n" + "="*60)
     print("ADVANCED MODEL TRAINING PIPELINE")
     print("="*60 + "\n")
     
-    compare_with_baseline()
-    
     data = load_processed_data()
     
     vectorizer, model, val_acc = train_advanced_model(
-        data['train'], 
+        data['train'],
         data['val'],
         max_features=15000,
         n_estimators=150
@@ -210,17 +194,7 @@ if __name__ == '__main__':
     print("\n" + "="*60)
     print("TRAINING COMPLETE - SUMMARY")
     print("="*60)
-    print(f"\nValidation Accuracy:  {val_metrics['accuracy']:.4f}")
-    print(f"Test A Accuracy:      {test_a_metrics['accuracy']:.4f}")
-    print(f"Test B Accuracy:      {test_b_metrics['accuracy']:.4f}")
-    
-    print("\n" + "="*60)
-    print("FINAL MODEL COMPARISON")
-    print("="*60)
-    print(f"\n{'Model':<20} {'Test A Acc':<15} {'Test B Acc':<15} {'Improvement':<15}")
-    print("-" * 70)
-    print(f"{'Baseline (LR)':<20} {'98.84%':<15} {'46.25%':<15} {'-':<15}")
-    print(f"{'Advanced (RF)':<20} {f'{test_a_metrics["accuracy"]*100:.2f}%':<15} {f'{test_b_metrics["accuracy"]*100:.2f}%':<15} {f'+{(test_a_metrics["accuracy"]-0.9884)*100:.2f}%':<15}")
-    print("-" * 70)
-    
+    print(f"\nValidation Accuracy: {val_metrics['accuracy']:.4f}")
+    print(f"Test A Accuracy:     {test_a_metrics['accuracy']:.4f}")
+    print(f"Test B Accuracy:     {test_b_metrics['accuracy']:.4f}")
     print("\nModels and results saved successfully!")
